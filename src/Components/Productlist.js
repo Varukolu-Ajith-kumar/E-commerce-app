@@ -1,33 +1,59 @@
-import { Button, Card, CardActions, CardContent, Dialog, DialogTitle, Grid, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Typography } from '@mui/material'
 import React, { useState } from 'react'
+import Carousel from 'react-material-ui-carousel';
 
 function Productlist({ item, addToCart, search }) {
-  console.log("search", search);
+ 
   const [open, setOpen] = useState(false); // State to control the dialog open/close
-
+  const [selectedItem, setSelectedItem] = useState({});
+  console.log("search", selectedItem);
   const handleClose = () => {
     setOpen(false);
   };
+{console.log(item);}
 
   return (
     <>
-      {/* The Dialog component */}
-      <Dialog onClose={handleClose} open={open}>
-        <DialogTitle>Set backup account</DialogTitle>
-        {/* Your dialog content */}
-        {/* Replace the following code with your dialog content */}
-        {/* <List sx={{ pt: 0 }}>
-          ... Dialog content ...
-        </List> */}
-      </Dialog>
+     
+      <Dialog onClose={handleClose} open={open} sx={{borderRadius:'10px',boxShadow:'initial'}}>
+      
+        <DialogActions sx={{display:'flex',justifyContent:'flex-start',alignItems:'flex-start'}}>
+          <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}} >
 
-      {/* The rest of your product list */}
+          <img src={selectedItem?.image} height="100px"></img>
+          <span style={{marginLeft:'20px'}}>
+            <ul >
+              <li>
+              Price: {selectedItem?.price}
+              </li>
+           <li>
+           Count:{selectedItem?.rating?.count}
+           </li>
+           <li>
+           rate:{selectedItem?.rating?.rate}
+           </li>
+            </ul>
+         
+         
+        
+          </span>
+          </div>
+
+        </DialogActions>
+        <DialogTitle>{selectedItem?.title}</DialogTitle>
+        <DialogContent>
+          {selectedItem?.description}
+        </DialogContent>
+      </Dialog>
       <Grid container spacing={2}>
         {item.filter(ele => search ? ele.title.toUpperCase().includes(search.toUpperCase()) : ele).map((item, index) => (
           <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
             <Card sx={{ minWidth: 275 }} >
               <CardContent>
-                <img src={item.image} style={{ width: "100%", maxWidth: "500px", maxHeight: "400px" }}onClick={() => setOpen(true)} />
+                <img src={item.image} style={{ width: "100%", maxWidth: "300px", maxHeight: "300px" }} onClick={() => {
+                  setOpen(true)
+                  setSelectedItem(item)
+                }} />
                 <Typography sx={{ fontSize: 14 }} color="text.secondary">
                   {item.title}
                 </Typography>
@@ -37,8 +63,6 @@ function Productlist({ item, addToCart, search }) {
               </CardContent>
               <CardActions>
                 <button onClick={() => addToCart(item)}>+AddToCard</button>
-                {/* To open the dialog, set the open state to true */}
-                {/* <Button onClick={() => setOpen(true)}>Open Dialog</Button> */}
               </CardActions>
             </Card>
           </Grid>

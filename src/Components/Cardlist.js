@@ -20,7 +20,7 @@ function Cardlist({ cart, setCart }) {
         : item
     });
     setCart(changes);
-    console.log(changes, "changes")
+  
 
   }
   const DecressQuantity = (selectedItem) => {
@@ -40,35 +40,39 @@ function Cardlist({ cart, setCart }) {
       {cart.length > 0 ? cart.map((cartItem, cartIndex) => {
         return (
           <>
-            <div key={cartIndex}>
-              <img src={cartItem.image} width={30} style={{ display: "flex" }} />
-              <span>{cartItem.title}</span>
-              <button
+            <div key={cartIndex} style={{display:'flex', flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+            
+              <img src={cartItem.image} width={100} />
+             <div style={{display:'flex',justifyContent:'space-between',alignContent:'space-between'}}>
+             <span>{cartItem.title}</span>
+              <button style={{height:"25px"}}
                 onClick={() => {
                   DecressQuantity(cartItem)
 
                 }}>-</button>
               <span>{cartItem.quantity}</span>
-              <button
+              <button style={{height:"25px"}}
                 onClick={() => increaseQuantity(cartItem)}
               >
                 +
               </button>
               {cartItem.price}
 
-              <button onClick={() => removeItem(cartItem)} >
+              <button style={{height:'25px'}}
+              onClick={() => removeItem(cartItem)} >
                 removeData
               </button>
+             </div>
             </div>
-            <p>
+            
+          </>
+        );
+      }) : <div>No items in CART...!!!!</div>}
+<p>
               Total Rs.  {cart
                 .map((item) => item.price * item.quantity)
                 .reduce((total, value) => total + value, 0)}
             </p>
-          </>
-        );
-      }) : <div>No items in CART...!!!!</div>}
-
     </div>
   );
 }
